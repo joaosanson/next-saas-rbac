@@ -21,7 +21,7 @@ model User {
   invites            Invite[]
   member_on          Member[]
   owns_organizations Organization[]
-  ows_projects       Project[]
+  owns_projects      Project[]
 
   @@map("users")
 }
@@ -35,8 +35,8 @@ model Token {
   type      TokenType
   createdAt DateTime  @default(now()) @map("created_at")
 
-  user   User?   @relation(fields: [userId], references: [id])
-  userId String? @map("user_id")
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @map("user_id")
 
   @@map("tokens")
 }
@@ -66,7 +66,7 @@ enum Role {
 model Invite {
   id        String   @id @default(uuid())
   email     String
-  role      Role[]
+  role      Role[]   @default([MEMBER])
   createdAt DateTime @default(now()) @map("created_at")
 
   author User?   @relation(fields: [userId], references: [id])
@@ -82,7 +82,7 @@ model Invite {
 
 model Member {
   id   String @id @default(uuid())
-  role Role[]
+  role Role[] @default([MEMBER])
 
   organization   Organization? @relation(fields: [organizationId], references: [id])
   organizationId String?       @map("organization_id")
@@ -104,11 +104,11 @@ model Organization {
   createdAt                 DateTime @default(now()) @map("created_at")
   updatedAt                 DateTime @updatedAt @map("updated_at")
 
-  owner  User?   @relation(fields: [ownerId], references: [id])
+  owner   User?   @relation(fields: [ownerId], references: [id])
   ownerId String? @map("owner_id")
 
-  invites Invite[]
-  members Member[]
+  invites  Invite[]
+  members  Member[]
   projects Project[]
 
   @@map("organizations")
@@ -127,7 +127,7 @@ model Project {
   organization   Organization? @relation(fields: [organizationId], references: [id])
   organizationId String?       @map("organization_id")
 
-  owner  User?   @relation(fields: [ownerId], references: [id])
+  owner   User?   @relation(fields: [ownerId], references: [id])
   ownerId String? @map("owner_id")
 
   @@map("projects")
