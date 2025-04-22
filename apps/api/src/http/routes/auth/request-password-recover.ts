@@ -26,7 +26,7 @@ export async function requestPasswordRecover(app: FastifyInstance) {
           email,
         },
       });
-
+      console.log('User from email:', userFromEmail);
       if (!userFromEmail) {
         return reply.status(201).send();
       }

@@ -72,8 +72,8 @@ model Invite {
   author User?   @relation(fields: [userId], references: [id])
   userId String? @map("user_id")
 
-  organization   Organization? @relation(fields: [organizationId], references: [id])
-  organizationId String?       @map("organization_id")
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String       @map("organization_id")
 
   @@unique([email, organizationId])
   @@index([email])
@@ -84,11 +84,11 @@ model Member {
   id   String @id @default(uuid())
   role Role[] @default([MEMBER])
 
-  organization   Organization? @relation(fields: [organizationId], references: [id])
-  organizationId String?       @map("organization_id")
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String       @map("organization_id")
 
-  user   User?   @relation(fields: [userId], references: [id])
-  userId String? @map("user_id")
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @map("user_id")
 
   @@unique([userId, organizationId])
   @@map("members")
@@ -99,13 +99,13 @@ model Organization {
   name                      String
   slug                      String   @unique
   domain                    String?  @unique
-  shouldAttachUsersByDomain Boolean? @default(false) @map("should_attach_users_by_domain")
+  shouldAttachUsersByDomain Boolean  @default(false) @map("should_attach_users_by_domain")
   avatarUrl                 String?  @map("avatar_url")
   createdAt                 DateTime @default(now()) @map("created_at")
   updatedAt                 DateTime @updatedAt @map("updated_at")
 
-  owner   User?   @relation(fields: [ownerId], references: [id])
-  ownerId String? @map("owner_id")
+  owner   User   @relation(fields: [ownerId], references: [id])
+  ownerId String @map("owner_id")
 
   invites  Invite[]
   members  Member[]
@@ -124,11 +124,11 @@ model Project {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
-  organization   Organization? @relation(fields: [organizationId], references: [id])
-  organizationId String?       @map("organization_id")
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String       @map("organization_id")
 
-  owner   User?   @relation(fields: [ownerId], references: [id])
-  ownerId String? @map("owner_id")
+  owner   User   @relation(fields: [ownerId], references: [id])
+  ownerId String @map("owner_id")
 
   @@map("projects")
 }
