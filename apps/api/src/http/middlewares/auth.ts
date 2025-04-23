@@ -38,12 +38,6 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
 
       const { organization, ...membership } = member;
 
-      if (!organization) {
-        throw new UnauthorizedError(
-          'Organization not found.'
-        );
-      }
-
       return {
         organization,
         membership,
