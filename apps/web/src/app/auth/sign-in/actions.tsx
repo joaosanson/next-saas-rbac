@@ -2,6 +2,7 @@
 
 import { signInWithPassword } from '@/http/sign-in-with-password';
 import { HTTPError } from 'ky';
+import { cookies } from 'next/headers';
 import { z } from 'zod';
 
 const signInSchema = z.object({
@@ -14,6 +15,8 @@ const signInSchema = z.object({
 type SignInData = z.infer<typeof signInSchema>;
 
 export async function signInWithEmailAndPassword(data: SignInData) {
+  const cookieStore = await cookies();
+
   const result = signInSchema.safeParse(data);
 
   if (!result.success) {
@@ -25,15 +28,17 @@ export async function signInWithEmailAndPassword(data: SignInData) {
 
   try {
     const { token } = await signInWithPassword({ email, password });
-    console.log(token);
+
+    cookieStore.set('token', token, {
+      path: '/',
+      maxAge: 60 * 60 * 24 * 1, // 1 day
+    });
   } catch (err) {
     if (err instanceof HTTPError) {
       const { message } = await err.response.json();
 
       return { success: false, message, errors: null };
     }
-
-    console.error(err);
 
     return {
       success: false,

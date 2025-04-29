@@ -34,21 +34,18 @@ export function SignInForm() {
 
   async function onSubmit(data: SignInFormData) {
     setServerError(null);
-    const { success, message } = await signInWithEmailAndPassword(data);
+    const { success, errors, message } = await signInWithEmailAndPassword(data);
 
     if (!success && message) {
-      setServerError(message);
+      setServerError(errors?.email || message);
       return;
     }
 
-    router.push('/dashboard');
+    router.push('/');
   }
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="space-y-4"
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       {serverError && (
         <Alert variant="destructive">
           <AlertTriangle className="size-4" />
@@ -75,7 +72,11 @@ export function SignInForm() {
       </div>
       <div className="space-y-1">
         <Label htmlFor="password">Password</Label>
-        <Input name="password" type="password" id="password" />
+        <Input
+          type="password"
+          id="password"
+          {...register('password', { required: 'Password is required' })}
+        />
 
         {errors.password && (
           <p className="text-xs font-medium text-red-500 dark:text-red-400">
