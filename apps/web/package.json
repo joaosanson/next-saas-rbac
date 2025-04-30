@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "pnpm env:load next dev --turbopack",
+    "build": "pnpm env:load next build",
+    "start": "pnpm env:load next start",
+    "lint": "pnpm env:load next lint",
+    "env:load": "dotenv -e ../../.env"
+
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.4",
@@ -21,7 +23,8 @@
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.56.1",
     "tailwind-merge": "^3.2.0",
-    "zod": "^3.24.3"
+    "zod": "^3.24.3",
+    "@saas/env": "workspace:*"
   },
   "devDependencies": {
     "@saas/eslint-config": "workspace:*",
@@ -33,7 +36,8 @@
     "@types/react-dom": "^19",
     "tailwindcss": "^4",
     "tw-animate-css": "^1.2.8",
-    "typescript": "^5"
+    "typescript": "^5",
+    "dotenv-cli": "^8.0.0"
   },
   "prettier": "@saas/prettier",
   "eslintConfig": {

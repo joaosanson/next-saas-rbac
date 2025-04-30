@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { signInWithGithub } from '../actions';
 import { signInWithEmailAndPassword } from './actions';
 
 const signInSchema = z.object({
@@ -45,76 +46,85 @@ export function SignInForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      {serverError && (
-        <Alert variant="destructive">
-          <AlertTriangle className="size-4" />
-          <AlertTitle>Sign in failed!</AlertTitle>
-          <AlertDescription>
-            <p>{serverError}</p>
-          </AlertDescription>
-        </Alert>
-      )}
-
-      <div className="space-y-1">
-        <Label htmlFor="email">E-mail</Label>
-        <Input
-          type="email"
-          id="email"
-          {...register('email', { required: 'E-mail is required' })}
-        />
-
-        {errors.email && (
-          <p className="text-xs font-medium text-red-500 dark:text-red-400">
-            {errors.email.message}
-          </p>
-        )}
-      </div>
-      <div className="space-y-1">
-        <Label htmlFor="password">Password</Label>
-        <Input
-          type="password"
-          id="password"
-          {...register('password', { required: 'Password is required' })}
-        />
-
-        {errors.password && (
-          <p className="text-xs font-medium text-red-500 dark:text-red-400">
-            {errors.password.message}
-          </p>
+    <div className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        {serverError && (
+          <Alert variant="destructive">
+            <AlertTriangle className="size-4" />
+            <AlertTitle>Sign in failed!</AlertTitle>
+            <AlertDescription>
+              <p>{serverError}</p>
+            </AlertDescription>
+          </Alert>
         )}
 
-        <Link
-          href={'/auth/forgot-password'}
-          className="text-foreground text-xs font-medium hover:underline"
+        <div className="space-y-1">
+          <Label htmlFor="email">E-mail</Label>
+          <Input
+            type="email"
+            id="email"
+            {...register('email', { required: 'E-mail is required' })}
+          />
+
+          {errors.email && (
+            <p className="text-xs font-medium text-red-500 dark:text-red-400">
+              {errors.email.message}
+            </p>
+          )}
+        </div>
+        <div className="space-y-1">
+          <Label htmlFor="password">Password</Label>
+          <Input
+            type="password"
+            id="password"
+            {...register('password', { required: 'Password is required' })}
+          />
+
+          {errors.password && (
+            <p className="text-xs font-medium text-red-500 dark:text-red-400">
+              {errors.password.message}
+            </p>
+          )}
+
+          <Link
+            href={'/auth/forgot-password'}
+            className="text-foreground text-xs font-medium hover:underline"
+          >
+            Forgot password?
+          </Link>
+        </div>
+        <Button
+          type="submit"
+          className="w-full cursor-pointer"
+          disabled={isSubmitting}
         >
-          Forgot password?
-        </Link>
-      </div>
-      <Button
-        type="submit"
-        className="w-full cursor-pointer"
-        disabled={isSubmitting}
-      >
-        {isSubmitting ? (
-          <Loader2 className="size-4 animate-spin" />
-        ) : (
-          'Sign in with e-mail'
-        )}
-      </Button>
-      <Button
-        variant="link"
-        className="w-full cursor-pointer"
-        size="sm"
-        asChild
-      >
-        <Link href={'/auth/sign-up'}>Create new account</Link>
-      </Button>
+          {isSubmitting ? (
+            <Loader2 className="size-4 animate-spin" />
+          ) : (
+            'Sign in with e-mail'
+          )}
+        </Button>
+        <Button
+          variant="link"
+          className="w-full cursor-pointer"
+          size="sm"
+          asChild
+        >
+          <Link href={'/auth/sign-up'}>Create new account</Link>
+        </Button>
+      </form>
       <Separator />
-      <Button type="submit" variant="outline" className="w-full cursor-pointer">
-        <Image src={githubIcon} className="size-5 dark:invert" alt="" />
-        Sign in with Github
-      </Button>
-    </form>
+
+      <form action={signInWithGithub} className="space-y-4">
+        <Button
+          type="submit"
+          variant="outline"
+          className="w-full cursor-pointer"
+        >
+          <Image src={githubIcon} className="size-5 dark:invert" alt="" />
+          Sign in with Github
+        </Button>
+      </form>
+    </div>
   );
 }
