@@ -1,10 +1,6 @@
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { auth } from '@/auth/auth';
 
-export default function Home() {
-  return (
-    <Button asChild>
-      <Link href="/auth/sign-in">Sign in</Link>
-    </Button>
-  );
+export default async function Home() {
+  const { user } = await auth();
+  return <pre>{JSON.stringify(user, null, 2)}</pre>;
 }
