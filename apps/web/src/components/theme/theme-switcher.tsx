@@ -20,7 +20,7 @@ export const ThemeSwitcher = () => {
           {resolvedTheme === 'light' ? (
             <Sun className="size-4" />
           ) : (
-            <Moon className="size-4" />
+            <Moon className="size-4" /> 
           )}
           <span className="sr-only">Toggle Theme</span>
         </Button>
