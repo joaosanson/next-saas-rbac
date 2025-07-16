@@ -13,6 +13,8 @@ export function middleware(request: NextRequest) {
     response.cookies.delete('org');
   }
 
+  console.log('Middleware response:', response);
+
   return response;
 }
 

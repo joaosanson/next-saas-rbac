@@ -12,18 +12,17 @@ export const api = ky.create({
         if (typeof window === 'undefined') {
           token = getCookie('token') as string | undefined;
 
-          if (token) {
-            request.headers.set('Authorization', `Bearer ${token}`);
-          } else {
+          if (!token) {
             const { cookies: getServerCookies } = await import('next/headers');
-
             const cookieStore = await getServerCookies();
             token = cookieStore.get('token')?.value;
-
-            if (token) {
-              request.headers.set('Authorization', `Bearer ${token}`);
-            }
           }
+        } else {
+          token = getCookie('token') as string | undefined;
+        }
+
+        if (token) {
+          request.headers.set('Authorization', `Bearer ${token}`);
         }
       },
     ],
