@@ -19,6 +19,9 @@ interface GetProjectsResponse {
 }
 
 export async function getProjects(org: string) {
+  // TODO: Lembrar de tirar
+  await new Promise((resolve) => setTimeout(resolve, 1000)); 
+
   const result = await api
     .get(`organizations/${org}/projects`)
     .json<GetProjectsResponse>();
