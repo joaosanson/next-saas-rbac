@@ -1,6 +1,6 @@
 'use client';
 
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Alert, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -10,10 +10,18 @@ import { AlertTriangle, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { createOrganizationAction } from './actions';
-import { createOrganizationSchema, CreateOrganizationType } from './types';
+import { createOrganizationAction, updateOrganizationAction } from './actions';
+import { organizationSchema, OrganizationType } from './types';
 
-export default function createOrganizationForm() {
+interface OrganizationFormProps {
+  isUpdating?: boolean;
+  initialData?: OrganizationType;
+}
+
+export default function OrganizationForm({
+  isUpdating = false,
+  initialData,
+}: OrganizationFormProps) {
   const [serverError, setServerError] = useState<string | null>(null);
   const [serverSuccess, setServerSuccess] = useState<string | null>(null);
 
@@ -23,18 +31,22 @@ export default function createOrganizationForm() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<CreateOrganizationType>({
-    resolver: zodResolver(createOrganizationSchema),
+  } = useForm<OrganizationType>({
+    resolver: zodResolver(organizationSchema),
     defaultValues: {
-      name: '',
-      domain: '',
-      shouldAttachUsersByDomain: false,
+      name: initialData?.name,
+      domain: initialData?.domain,
+      shouldAttachUsersByDomain: !!initialData?.shouldAttachUsersByDomain,
     },
   });
 
-  async function onSubmit(data: CreateOrganizationType) {
+  async function onSubmit(data: OrganizationType) {
     setServerError(null);
-    const { success, errors, message } = await createOrganizationAction(data);
+    const formAction = isUpdating
+      ? updateOrganizationAction
+      : createOrganizationAction;
+
+    const { success, errors, message } = await formAction(data);
 
     if (!success && message) {
       setServerError(errors?.name || message);
@@ -44,25 +56,23 @@ export default function createOrganizationForm() {
       setServerSuccess(message);
     }
 
-    router.push('/');
+    if (formAction === createOrganizationAction) {
+      router.push('/');
+    }
   }
 
   return (
     <div className="space-y-4">
-
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {serverError && (
           <Alert variant="destructive">
             <AlertTriangle className="size-4" />
-            <AlertTitle>Organization creation failed!</AlertTitle>
-            <AlertDescription>
-              <p>{serverError}</p>
-            </AlertDescription>
+            <AlertTitle>{serverError}</AlertTitle>
           </Alert>
         )}
 
         {serverSuccess && (
-          <Alert variant="default">
+          <Alert variant="success">
             <AlertTitle>{serverSuccess}</AlertTitle>
           </Alert>
         )}
@@ -127,6 +137,8 @@ export default function createOrganizationForm() {
         >
           {isSubmitting ? (
             <Loader2 className="size-4 animate-spin" />
+          ) : initialData ? (
+            'Update organization'
           ) : (
             'Save organization'
           )}

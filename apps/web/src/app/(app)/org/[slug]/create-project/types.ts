@@ -11,12 +11,5 @@ export const projectSchema = z.object({
 
 export const createProjectFormSchema = projectSchema;
 
-export const createProjectActionSchema = projectSchema.extend({
-  shouldAttachUsersByDomain: z
-    .union([z.literal('on'), z.literal('off'), z.boolean()])
-    .transform((value) => value === true || value === 'on')
-    .default(false),
-});
-
 export type ProjectType = z.infer<typeof projectSchema>;
-export type createProjectActionType = z.infer<typeof createProjectActionSchema>;
+export type createProjectActionType = z.infer<typeof createProjectFormSchema>;

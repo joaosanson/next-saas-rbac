@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const createOrganizationSchema = z.object({
+export const organizationSchema = z.object({
   name: z
     .string()
     .min(4, { message: 'Name must be at least 4 characters long.' }),
@@ -22,9 +22,9 @@ export const createOrganizationSchema = z.object({
   shouldAttachUsersByDomain: z.boolean(),
 });
 
-export const createOrganizationFormSchema = createOrganizationSchema;
+export const createOrganizationFormSchema = organizationSchema;
 
-export const createOrganizationActionSchema = createOrganizationSchema
+export const createOrganizationActionSchema = organizationSchema
   .extend({
     shouldAttachUsersByDomain: z
       .union([z.literal('on'), z.literal('off'), z.boolean()])
@@ -44,7 +44,7 @@ export const createOrganizationActionSchema = createOrganizationSchema
     }
   );
 
-export type CreateOrganizationType = z.infer<typeof createOrganizationSchema>;
+export type OrganizationType = z.infer<typeof organizationSchema>;
 export type createOrganizationActionType = z.infer<
   typeof createOrganizationActionSchema
 >;

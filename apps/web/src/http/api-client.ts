@@ -24,10 +24,12 @@ export const api = ky.create({
         if (token) {
           request.headers.set('Authorization', `Bearer ${token}`);
         }
+
+        // Only set Content-Type for requests with a body
+        if (request.body && !request.headers.has('Content-Type')) {
+          request.headers.set('Content-Type', 'application/json');
+        }
       },
     ],
-  },
-  headers: {
-    'Content-Type': 'application/json',
   },
 });

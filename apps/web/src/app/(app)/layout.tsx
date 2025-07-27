@@ -10,5 +10,9 @@ export default async function AppLayout({
     redirect('/auth/sign-in');
   }
 
-  return <div className="container mx-auto">{children}</div>;
+  return (
+    <div className="container mx-auto">
+      {children}
+    </div>
+  );
 }

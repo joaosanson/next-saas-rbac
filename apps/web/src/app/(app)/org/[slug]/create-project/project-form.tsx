@@ -4,13 +4,14 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AlertTriangle, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { createProjectAction } from './actions';
 import { projectSchema, ProjectType } from './types';
-import { Textarea } from "@/components/ui/textarea";
 
 export default function ProjectForm() {
   const [serverError, setServerError] = useState<string | null>(null);
@@ -32,17 +33,15 @@ export default function ProjectForm() {
 
   async function onSubmit(data: ProjectType) {
     setServerError(null);
-    // const { success, errors, message } = await createProjectAction(data);
+    const { success, errors, message } = await createProjectAction(data);
 
-    // if (!success && message) {
-    //   setServerError(errors?.name || message);
-    //   return;
-    // }
-    // if (success && message) {
-    //   setServerSuccess(message);
-    // }
-
-    router.push('/');
+    if (!success && message) {
+      setServerError(errors?.name || message);
+      return;
+    }
+    if (success && message) {
+      setServerSuccess(message);
+    }
   }
 
   return (
@@ -59,7 +58,7 @@ export default function ProjectForm() {
         )}
 
         {serverSuccess && (
-          <Alert variant="default">
+          <Alert variant="success">
             <AlertTitle>{serverSuccess}</AlertTitle>
           </Alert>
         )}
