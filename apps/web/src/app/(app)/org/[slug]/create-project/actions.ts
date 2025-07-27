@@ -1,9 +1,10 @@
 'use server';
 
 import { getCurrentOrg } from '@/auth/auth';
-import { createProject } from '@/http/create-projct';
+import { createProject } from '@/http/create-project';
 import { HTTPError } from 'ky';
-import {  createProjectActionType, createProjectFormSchema } from './types';
+import { revalidateTag } from 'next/cache';
+import { createProjectActionType, createProjectFormSchema } from './types';
 
 export async function createProjectAction(data: createProjectActionType) {
   const result = createProjectFormSchema.safeParse(data);
@@ -31,6 +32,8 @@ export async function createProjectAction(data: createProjectActionType) {
       name,
       description,
     });
+
+    revalidateTag('projects')
   } catch (err) {
     if (err instanceof HTTPError) {
       const { message } = await err.response.json();

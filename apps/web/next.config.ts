@@ -5,6 +5,10 @@ const nextConfig: NextConfig = {
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    remotePatterns: [
+      { hostname: 'github.com' },
+      { hostname: 'avatars.githubusercontent.com' },
+    ],
   },
 };
 
