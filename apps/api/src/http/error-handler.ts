@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
+import { hasZodFastifySchemaValidationErrors } from "fastify-type-provider-zod";
 import { BadRequestError } from './routes/_errors/bad-request-error';
 import { UnauthorizedError } from './routes/_errors/unauthorized-error';
-import { hasZodFastifySchemaValidationErrors } from "fastify-type-provider-zod";
 
 type FastifyErrorHandler = FastifyInstance['errorHandler'];
 
@@ -31,5 +31,7 @@ export const errorHandler: FastifyErrorHandler = (error, request, reply) => {
 
   return reply.status(500).send({
     message: 'Internal server error.',
+    error: error instanceof Error ? error.message : 'Unknown error',
+    stack: error instanceof Error ? error.stack : undefined,
   });
 };

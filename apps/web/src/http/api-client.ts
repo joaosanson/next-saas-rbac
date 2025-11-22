@@ -10,13 +10,9 @@ export const api = ky.create({
         let token: string | undefined;
 
         if (typeof window === 'undefined') {
-          token = getCookie('token') as string | undefined;
-
-          if (!token) {
-            const { cookies: getServerCookies } = await import('next/headers');
-            const cookieStore = await getServerCookies();
-            token = cookieStore.get('token')?.value;
-          }
+          const { cookies: getServerCookies } = await import('next/headers');
+          const cookieStore = await getServerCookies();
+          token = cookieStore.get('token')?.value;
         } else {
           token = getCookie('token') as string | undefined;
         }

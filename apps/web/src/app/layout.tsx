@@ -12,6 +12,26 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  if (typeof window === 'undefined') {
+    // Polyfill localStorage for SSR if it's missing or invalid
+    if (
+      typeof global.localStorage === 'undefined' ||
+      typeof global.localStorage.getItem === 'undefined'
+    ) {
+      Object.defineProperty(global, 'localStorage', {
+        value: {
+          getItem: () => null,
+          setItem: () => {},
+          removeItem: () => {},
+          clear: () => {},
+          length: 0,
+          key: () => null,
+        },
+        writable: true,
+      });
+    }
+  }
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body>

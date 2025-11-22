@@ -9,7 +9,7 @@ import { Separator } from '@/components/ui/separator';
 import { AlertTriangle, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -26,6 +26,7 @@ type SignInFormData = z.infer<typeof signInSchema>;
 export function SignInForm() {
   const [serverError, setServerError] = useState<string | null>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const {
     register,
@@ -61,6 +62,7 @@ export function SignInForm() {
         <div className="space-y-1">
           <Label htmlFor="email">E-mail</Label>
           <Input
+            defaultValue={searchParams.get('email') || ''}
             type="email"
             id="email"
             {...register('email', { required: 'E-mail is required' })}

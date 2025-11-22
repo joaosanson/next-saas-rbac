@@ -1,5 +1,6 @@
 'use server';
 
+import { acceptInvite } from "@/http/accept-invite";
 import { signInWithPassword } from '@/http/sign-in-with-password';
 import { HTTPError } from 'ky';
 import { cookies } from 'next/headers';
@@ -33,6 +34,18 @@ export async function signInWithEmailAndPassword(data: SignInData) {
       path: '/',
       maxAge: 60 * 60 * 24 * 1, // 1 day
     });
+
+    const inviteId = cookieStore.get('inviteId')?.value;
+
+    if (inviteId) {
+      try {
+        await acceptInvite(inviteId);
+        cookieStore.delete('inviteId');
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    
   } catch (err) {
     if (err instanceof HTTPError) {
       const { message } = await err.response.json();
