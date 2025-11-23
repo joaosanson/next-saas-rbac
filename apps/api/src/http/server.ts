@@ -17,6 +17,14 @@ import { createAccount } from './routes/auth/create-account';
 import { getProfile } from './routes/auth/get-profile';
 import { requestPasswordRecover } from './routes/auth/request-password-recover';
 import { resetPassword } from './routes/auth/reset-password';
+import { getOrganizationBilling } from './routes/billing/get-organization-billing';
+import { acceptInvite } from './routes/invites/accept-invite';
+import { createInvite } from './routes/invites/create-invite';
+import { getInvite } from './routes/invites/get-invite';
+import { getInvites } from './routes/invites/get-invites';
+import { getPendingInvites } from './routes/invites/get-pending-invites';
+import { rejectInvite } from './routes/invites/reject-invite';
+import { revokeInvite } from './routes/invites/revoke-invite';
 import { getMembers } from './routes/members/get-members';
 import { removeMember } from './routes/members/remove-member';
 import { updateMember } from './routes/members/update-member';
@@ -32,14 +40,6 @@ import { deleteProject } from './routes/projects/delete-project';
 import { getProject } from './routes/projects/get-project';
 import { getProjects } from './routes/projects/get-projects';
 import { updateProject } from './routes/projects/update-project';
-import { createInvite } from "./routes/invites/create-invite";
-import { getInvites } from "./routes/invites/get-invites";
-import { acceptInvite } from "./routes/invites/accept-invite";
-import { rejectInvite } from "./routes/invites/reject-invite";
-import { revokeInvite } from "./routes/invites/revoke-invite";
-import { getPendingInvites } from "./routes/invites/get-pending-invites";
-import { getOrganizationBilling } from "./routes/billing/get-organization-billing";
-import { getInvite } from "./routes/invites/get-invite";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -102,16 +102,16 @@ app.register(getMembers);
 app.register(updateMember);
 app.register(removeMember);
 
-app.register(createInvite)
-app.register(getInvites)
-app.register(getInvite)
-app.register(acceptInvite)
-app.register(rejectInvite)
-app.register(revokeInvite)
-app.register(getPendingInvites)
+app.register(createInvite);
+app.register(getInvites);
+app.register(getInvite);
+app.register(acceptInvite);
+app.register(rejectInvite);
+app.register(revokeInvite);
+app.register(getPendingInvites);
 
-app.register(getOrganizationBilling)
+app.register(getOrganizationBilling);
 
-app.listen({ port: env.SERVER_PORT }).then(() => {
-  console.log(`Server is running on http://localhost:` + env.SERVER_PORT);
+app.listen({ port: env.PORT }).then(() => {
+  console.log(`Server is running on http://localhost:` + env.PORT);
 });
