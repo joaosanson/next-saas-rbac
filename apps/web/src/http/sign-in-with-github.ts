@@ -1,11 +1,11 @@
-import { api } from './api-client';
+import { api } from './api-client'
 
 interface SignInWithGithubRequest {
-  code: string;
+  code: string
 }
 
 interface SignInWithGithubResponse {
-  token: string;
+  token: string
 }
 
 export async function signInWithGithub({ code }: SignInWithGithubRequest) {
@@ -15,7 +15,7 @@ export async function signInWithGithub({ code }: SignInWithGithubRequest) {
         code,
       },
     })
-    .json<SignInWithGithubResponse>();
+    .json<SignInWithGithubResponse>()
 
-  return result;
+  return result
 }

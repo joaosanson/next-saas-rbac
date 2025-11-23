@@ -1,4 +1,6 @@
-import { Button } from '@/components/ui/button';
+import { UserMinus } from 'lucide-react'
+
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogClose,
@@ -7,13 +9,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { UserMinus } from 'lucide-react';
-import { removeMemberAction } from './actions';
+} from '@/components/ui/dialog'
+
+import { removeMemberAction } from './actions'
 
 interface DeleteMemberProps {
-  isDisabled: boolean;
-  memberId: string;
+  isDisabled: boolean
+  memberId: string
 }
 
 export function DeleteMember({ isDisabled, memberId }: DeleteMemberProps) {
@@ -48,5 +50,5 @@ export function DeleteMember({ isDisabled, memberId }: DeleteMemberProps) {
         </form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

@@ -1,18 +1,19 @@
-import { Role } from '@saas/auth';
-import { api } from './api-client';
+import { Role } from '@saas/auth'
+
+import { api } from './api-client'
 
 interface GetInvitesResponse {
   invites: {
-    id: string;
-    role: Role;
-    email: string;
-    createdAt: string;
+    id: string
+    role: Role
+    email: string
+    createdAt: string
     author: {
-      id: string;
-      name: string | null;
-      avatarUrl: string | null;
-    } | null;
-  }[];
+      id: string
+      name: string | null
+      avatarUrl: string | null
+    } | null
+  }[]
 }
 
 export async function getInvites(org: string) {
@@ -22,7 +23,7 @@ export async function getInvites(org: string) {
         tags: [`${org}/invites`],
       },
     })
-    .json<GetInvitesResponse>();
+    .json<GetInvitesResponse>()
 
-  return result;
+  return result
 }

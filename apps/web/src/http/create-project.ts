@@ -1,12 +1,12 @@
-import { api } from './api-client';
+import { api } from './api-client'
 
 interface CreateProjectRequest {
-  org: string;
-  name: string;
-  description: string;
+  org: string
+  name: string
+  description: string
 }
 
-type CreateProjectResponse = void;
+type CreateProjectResponse = void
 
 export async function createProject({
   org,
@@ -19,5 +19,5 @@ export async function createProject({
       name,
       description,
     },
-  });
+  })
 }

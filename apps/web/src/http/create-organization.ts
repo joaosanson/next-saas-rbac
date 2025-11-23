@@ -1,12 +1,12 @@
-import { api } from './api-client';
+import { api } from './api-client'
 
 interface CreateOrganizationRequest {
-  name: string;
-  domain: string | null;
-  shouldAttachUsersByDomain: boolean | null;
+  name: string
+  domain: string | null
+  shouldAttachUsersByDomain: boolean | null
 }
 
-type CreateOrganizationResponse = void;
+type CreateOrganizationResponse = void
 
 export async function createOrganization({
   name,
@@ -19,5 +19,5 @@ export async function createOrganization({
       domain,
       shouldAttachUsersByDomain,
     },
-  });
+  })
 }

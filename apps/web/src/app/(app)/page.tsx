@@ -1,4 +1,4 @@
-import { Header } from '@/components/header';
+import { Header } from '@/components/header'
 
 export default async function Home() {
   return (
@@ -8,5 +8,5 @@ export default async function Home() {
         <p className="text-muted-foreground text-sm">Select an organization.</p>
       </main>
     </div>
-  );
+  )
 }

@@ -1,49 +1,51 @@
-'use client';
+'use client'
 
-import githubIcon from '@/assets/github-icon.svg';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { AlertTriangle, Loader2 } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { signInWithGithub } from '../actions';
-import { signInWithEmailAndPassword } from './actions';
+import { AlertTriangle, Loader2 } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
+import githubIcon from '@/assets/github-icon.svg'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Separator } from '@/components/ui/separator'
+
+import { signInWithGithub } from '../actions'
+import { signInWithEmailAndPassword } from './actions'
 
 const signInSchema = z.object({
   email: z.string().email(),
   password: z.string(),
-});
+})
 
-type SignInFormData = z.infer<typeof signInSchema>;
+type SignInFormData = z.infer<typeof signInSchema>
 
 export function SignInForm() {
-  const [serverError, setServerError] = useState<string | null>(null);
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const [serverError, setServerError] = useState<string | null>(null)
+  const router = useRouter()
+  const searchParams = useSearchParams()
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<SignInFormData>();
+  } = useForm<SignInFormData>()
 
   async function onSubmit(data: SignInFormData) {
-    setServerError(null);
-    const { success, errors, message } = await signInWithEmailAndPassword(data);
+    setServerError(null)
+    const { success, errors, message } = await signInWithEmailAndPassword(data)
 
     if (!success && message) {
-      setServerError(errors?.email || message);
-      return;
+      setServerError(errors?.email || message)
+      return
     }
 
-    router.push('/');
+    router.push('/')
   }
 
   return (
@@ -128,5 +130,5 @@ export function SignInForm() {
         </Button>
       </form>
     </div>
-  );
+  )
 }

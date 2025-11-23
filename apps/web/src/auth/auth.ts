@@ -1,39 +1,40 @@
-import { getMembership } from '@/http/get-membership';
-import { getProfile } from '@/http/get-profile';
-import { defineAbilityFor } from "@saas/auth";
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { defineAbilityFor } from '@saas/auth'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
+
+import { getMembership } from '@/http/get-membership'
+import { getProfile } from '@/http/get-profile'
 
 export async function isAuthenticated() {
-  const cookieStore = await cookies();
+  const cookieStore = await cookies()
 
-  return !!cookieStore.get('token')?.value;
+  return !!cookieStore.get('token')?.value
 }
 
 export async function getCurrentOrg() {
-  const cookieStore = await cookies();
-  const org = cookieStore.get('org')?.value ?? null;
+  const cookieStore = await cookies()
+  const org = cookieStore.get('org')?.value ?? null
 
-  return org;
+  return org
 }
 
 export async function getCurrentMembership() {
-  const org = await getCurrentOrg();
+  const org = await getCurrentOrg()
 
   if (!org) {
-    return null;
+    return null
   }
 
-  const { membership } = await getMembership(org);
+  const { membership } = await getMembership(org)
 
-  return membership;
+  return membership
 }
 
 export async function ability() {
-  const membership = await getCurrentMembership();
+  const membership = await getCurrentMembership()
 
   if (!membership) {
-    return null;
+    return null
   }
 
   const ability = defineAbilityFor({
@@ -41,21 +42,21 @@ export async function ability() {
     role: membership.role,
   })
 
-  return ability;
+  return ability
 }
 
 export async function auth() {
-  const cookieStore = await cookies();
+  const cookieStore = await cookies()
 
-  const token = cookieStore.get('token')?.value;
+  const token = cookieStore.get('token')?.value
   if (!token) {
-    redirect('/api/auth/sign-out');
+    redirect('/api/auth/sign-out')
   }
 
   try {
-    const { user } = await getProfile();
-    return { user };
+    const { user } = await getProfile()
+    return { user }
   } catch (error) {}
 
-  redirect('/api/auth/sign-out');
+  redirect('/api/auth/sign-out')
 }

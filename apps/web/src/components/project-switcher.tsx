@@ -1,11 +1,13 @@
-'use client';
+'use client'
 
-import { getProjects } from '@/http/get-projects';
-import { useQuery } from '@tanstack/react-query';
-import { ChevronsUpDown, Loader2, PlusCircle } from 'lucide-react';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { useQuery } from '@tanstack/react-query'
+import { ChevronsUpDown, Loader2, PlusCircle } from 'lucide-react'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
+
+import { getProjects } from '@/http/get-projects'
+
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,14 +16,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from './ui/dropdown-menu';
-import { Skeleton } from './ui/skeleton';
+} from './ui/dropdown-menu'
+import { Skeleton } from './ui/skeleton'
 
 export function ProjectSwitcher() {
   const { slug: orgSlug, project: projectSlug } = useParams<{
-    slug: string;
-    project: string;
-  }>();
+    slug: string
+    project: string
+  }>()
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['projects', orgSlug],
@@ -29,16 +31,16 @@ export function ProjectSwitcher() {
     enabled: !!orgSlug,
     retry: (failureCount, error) => {
       if (error instanceof Error && error.message.includes('401')) {
-        return false;
+        return false
       }
-      return failureCount < 3;
+      return failureCount < 3
     },
-  });
+  })
 
   const currentProject =
     data && projectSlug
       ? data.projects.find((project) => project.slug === projectSlug)
-      : null;
+      : null
 
   return (
     <DropdownMenu>
@@ -129,5 +131,5 @@ export function ProjectSwitcher() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
 }

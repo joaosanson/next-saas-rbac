@@ -1,15 +1,16 @@
-import { isAuthenticated } from '@/auth/auth';
-import { Header } from "@/components/header";
-import { Tabs } from "@/components/tabs";
-import { redirect } from 'next/navigation';
+import { redirect } from 'next/navigation'
+
+import { isAuthenticated } from '@/auth/auth'
+import { Header } from '@/components/header'
+import { Tabs } from '@/components/tabs'
 
 export default async function OrgLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   if (!(await isAuthenticated())) {
-    redirect('/auth/sign-in');
+    redirect('/auth/sign-in')
   }
 
   return (
@@ -19,9 +20,7 @@ export default async function OrgLayout({
         <Tabs />
       </div>
 
-      <main className="mx-auto w-full max-w-[1200px] py-4">
-        {children}
-      </main>
+      <main className="mx-auto w-full max-w-[1200px] py-4">{children}</main>
     </div>
-  );
+  )
 }

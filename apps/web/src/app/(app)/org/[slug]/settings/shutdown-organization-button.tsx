@@ -1,5 +1,7 @@
-import { getCurrentOrg } from '@/auth/auth';
-import { Button } from '@/components/ui/button';
+import { redirect } from 'next/navigation'
+
+import { getCurrentOrg } from '@/auth/auth'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogClose,
@@ -9,25 +11,24 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { shutdownOrganization } from '@/http/shutdown-organization';
-import { redirect } from 'next/navigation';
+} from '@/components/ui/dialog'
+import { shutdownOrganization } from '@/http/shutdown-organization'
 
 export function ShutdownOrganizationButton() {
   async function shutdownOrganizationAction() {
-    'use server';
+    'use server'
 
-    const currentOrg = await getCurrentOrg();
+    const currentOrg = await getCurrentOrg()
 
-    await shutdownOrganization({ org: currentOrg! });
+    await shutdownOrganization({ org: currentOrg! })
 
-    redirect('/');
+    redirect('/')
   }
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="content-start bg-transparent p-0 text-red-400 hover:bg-transparent underline">
+        <Button className="content-start bg-transparent p-0 text-red-400 underline hover:bg-transparent">
           Shutdown organization
         </Button>
       </DialogTrigger>
@@ -44,9 +45,7 @@ export function ShutdownOrganizationButton() {
           </DialogHeader>
           <DialogFooter className="flex justify-between gap-4 pt-2">
             <DialogClose asChild>
-              <Button
-                className="flex-1 text-amber-50 hover:underline bg-transparent hover:bg-transparent"
-              >
+              <Button className="flex-1 bg-transparent text-amber-50 hover:bg-transparent hover:underline">
                 Cancel
               </Button>
             </DialogClose>
@@ -60,5 +59,5 @@ export function ShutdownOrganizationButton() {
         </form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

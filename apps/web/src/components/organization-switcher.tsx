@@ -1,8 +1,10 @@
-import { getCurrentOrg } from '@/auth/auth';
-import { getOrganizations } from '@/http/get-organizations';
-import { ChevronsUpDown, PlusCircle } from 'lucide-react';
-import Link from 'next/link';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { ChevronsUpDown, PlusCircle } from 'lucide-react'
+import Link from 'next/link'
+
+import { getCurrentOrg } from '@/auth/auth'
+import { getOrganizations } from '@/http/get-organizations'
+
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,15 +13,15 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from './ui/dropdown-menu';
+} from './ui/dropdown-menu'
 
 export async function OrganizationSwitcher() {
-  const currentOrg = await getCurrentOrg();
-  const { organizations } = await getOrganizations();
+  const currentOrg = await getCurrentOrg()
+  const { organizations } = await getOrganizations()
 
   const currentOrganization = organizations.find(
-    (organization) => organization.slug === currentOrg
-  );
+    (organization) => organization.slug === currentOrg,
+  )
 
   return (
     <DropdownMenu>
@@ -70,5 +72,5 @@ export async function OrganizationSwitcher() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
 }

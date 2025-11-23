@@ -1,12 +1,12 @@
-import { api } from './api-client';
+import { api } from './api-client'
 
 interface SignUpRequest {
-  name: string;
-  email: string;
-  password: string;
+  name: string
+  email: string
+  password: string
 }
 
-type SignUpResponse = void;
+type SignUpResponse = void
 
 export async function signUp({
   name,
@@ -21,5 +21,5 @@ export async function signUp({
         password,
       },
     })
-    .json<SignUpResponse>();
+    .json<SignUpResponse>()
 }

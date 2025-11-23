@@ -1,16 +1,17 @@
-import { ability, getCurrentOrg } from '@/auth/auth';
-import { NavLink } from './nav-link';
-import { Button } from './ui/button';
+import { ability, getCurrentOrg } from '@/auth/auth'
+
+import { NavLink } from './nav-link'
+import { Button } from './ui/button'
 
 export async function Tabs() {
-  const currentOrg = await getCurrentOrg();
+  const currentOrg = await getCurrentOrg()
 
-  const permissions = await ability();
+  const permissions = await ability()
 
-  const canGetProjects = permissions?.can('get', 'Project');
-  const canGetMembers = permissions?.can('get', 'User');
-  const canUpdateOrganization = permissions?.can('update', 'Organization');
-  const canGetBilling = permissions?.can('get', 'Billing');
+  const canGetProjects = permissions?.can('get', 'Project')
+  const canGetMembers = permissions?.can('get', 'User')
+  const canUpdateOrganization = permissions?.can('update', 'Organization')
+  const canGetBilling = permissions?.can('get', 'Billing')
 
   return (
     <div className="border-b py-4">
@@ -51,5 +52,5 @@ export async function Tabs() {
         )}
       </nav>
     </div>
-  );
+  )
 }

@@ -1,18 +1,15 @@
-import { isAuthenticated } from '@/auth/auth';
-import { redirect } from 'next/navigation';
+import { redirect } from 'next/navigation'
+
+import { isAuthenticated } from '@/auth/auth'
 
 export default async function AppLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   if (!(await isAuthenticated())) {
-    redirect('/auth/sign-in');
+    redirect('/auth/sign-in')
   }
 
-  return (
-    <div className="container mx-auto">
-      {children}
-    </div>
-  );
+  return <div className="container mx-auto">{children}</div>
 }

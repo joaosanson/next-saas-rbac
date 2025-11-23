@@ -1,27 +1,29 @@
-import { ability, getCurrentOrg } from '@/auth/auth';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
-import { getMembers } from '@/http/get-members';
-import { getMembership } from '@/http/get-membership';
-import { getOrganization } from '@/http/get-organization';
-import { organizationSchema } from '@saas/auth';
-import { ArrowLeftRight, Crown } from 'lucide-react';
-import Image from 'next/image';
-import { DeleteMember } from './delete-member';
-import { UpdateMemberRoleSelect } from './update-member-role-select';
+import { organizationSchema } from '@saas/auth'
+import { ArrowLeftRight, Crown } from 'lucide-react'
+import Image from 'next/image'
+
+import { ability, getCurrentOrg } from '@/auth/auth'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
+import { getMembers } from '@/http/get-members'
+import { getMembership } from '@/http/get-membership'
+import { getOrganization } from '@/http/get-organization'
+
+import { DeleteMember } from './delete-member'
+import { UpdateMemberRoleSelect } from './update-member-role-select'
 
 export async function MemberList() {
-  const currentOrg = await getCurrentOrg();
-  const permissions = await ability();
+  const currentOrg = await getCurrentOrg()
+  const permissions = await ability()
 
   const [{ membership }, { members }, { organization }] = await Promise.all([
     getMembership(currentOrg!),
     getMembers(currentOrg!),
     getOrganization(currentOrg!),
-  ]);
+  ])
 
-  const authOrganization = organizationSchema.parse(organization);
+  const authOrganization = organizationSchema.parse(organization)
 
   return (
     <div className="space-y-2">
@@ -68,7 +70,7 @@ export async function MemberList() {
                     <div className="flex items-center justify-end gap-2">
                       {permissions?.can(
                         'transfer_ownership',
-                        authOrganization
+                        authOrganization,
                       ) && (
                         <Button size="sm" variant="ghost">
                           <ArrowLeftRight className="mr-2 size-4" />
@@ -99,11 +101,11 @@ export async function MemberList() {
                     </div>
                   </TableCell>
                 </TableRow>
-              );
+              )
             })}
           </TableBody>
         </Table>
       </div>
     </div>
-  );
+  )
 }

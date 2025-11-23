@@ -1,17 +1,18 @@
-'use server';
+'use server'
 
-import { acceptInvite } from '@/http/accept-invite';
-import { rejectInvite } from '@/http/reject-invite';
-import { revalidateTag } from 'next/cache';
+import { revalidateTag } from 'next/cache'
+
+import { acceptInvite } from '@/http/accept-invite'
+import { rejectInvite } from '@/http/reject-invite'
 
 export async function acceptInviteAction(inviteId: string) {
-  await acceptInvite(inviteId);
+  await acceptInvite(inviteId)
 
-  revalidateTag('organizations');
+  revalidateTag('organizations')
 }
 
 export async function rejectInviteAction(inviteId: string) {
-  await rejectInvite(inviteId);
+  await rejectInvite(inviteId)
 
-  revalidateTag('organizations');
+  revalidateTag('organizations')
 }

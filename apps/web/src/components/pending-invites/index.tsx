@@ -1,36 +1,37 @@
-'use client';
+'use client'
 
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import { Check, UserPlus2, X } from 'lucide-react'
+import { useState } from 'react'
 
-import { GetPendingInvites } from '@/http/get-pending-invites';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Check, UserPlus2, X } from 'lucide-react';
-import { useState } from 'react';
-import { Button } from '../ui/button';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { acceptInviteAction, rejectInviteAction } from './actions';
+import { GetPendingInvites } from '@/http/get-pending-invites'
 
-dayjs.extend(relativeTime);
+import { Button } from '../ui/button'
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
+import { acceptInviteAction, rejectInviteAction } from './actions'
+
+dayjs.extend(relativeTime)
 
 export function PendingInvites() {
-  const queryClient = useQueryClient();
-  const [isOpen, setIsOpen] = useState(false);
+  const queryClient = useQueryClient()
+  const [isOpen, setIsOpen] = useState(false)
 
-  const { data, isLoading, refetch } = useQuery({
+  const { data: invites } = useQuery({
     queryKey: ['pending-invites'],
     queryFn: GetPendingInvites,
     enabled: isOpen,
-  });
+  })
 
   async function handleAcceptInvite(inviteId: string) {
-    await acceptInviteAction(inviteId);
-    queryClient.invalidateQueries({ queryKey: ['pending-invites'] });
+    await acceptInviteAction(inviteId)
+    queryClient.invalidateQueries({ queryKey: ['pending-invites'] })
   }
 
   async function handleRejectInvite(inviteId: string) {
-    await rejectInviteAction(inviteId);
-    queryClient.invalidateQueries({ queryKey: ['pending-invites'] });
+    await rejectInviteAction(inviteId)
+    queryClient.invalidateQueries({ queryKey: ['pending-invites'] })
   }
 
   return (
@@ -44,14 +45,14 @@ export function PendingInvites() {
 
       <PopoverContent className="w-80 space-y-2">
         <span className="text-sm font-medium">
-          Pending invites ({data?.invites.length ?? 0})
+          Pending invites ({invites?.invites.length ?? 0})
         </span>
 
-        {data?.invites.length === 0 && (
+        {invites?.invites.length === 0 && (
           <p className="text-muted-foreground text-sm">No pending invites</p>
         )}
 
-        {data?.invites.map((invite) => (
+        {invites?.invites.map((invite) => (
           <div className="space-y-2" key={invite.id}>
             <p className="text-muted-foreground text-sm leading-relaxed">
               <span className="font-semibold">{invite.author?.name}</span>{' '}
@@ -86,5 +87,5 @@ export function PendingInvites() {
         ))}
       </PopoverContent>
     </Popover>
-  );
+  )
 }

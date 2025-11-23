@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const projectSchema = z.object({
   name: z
@@ -7,9 +7,9 @@ export const projectSchema = z.object({
   description: z
     .string()
     .min(10, { message: 'Description must be at least 10 characters long.' }),
-});
+})
 
-export const createProjectFormSchema = projectSchema;
+export const createProjectFormSchema = projectSchema
 
-export type ProjectType = z.infer<typeof projectSchema>;
-export type createProjectActionType = z.infer<typeof createProjectFormSchema>;
+export type ProjectType = z.infer<typeof projectSchema>
+export type createProjectActionType = z.infer<typeof createProjectFormSchema>

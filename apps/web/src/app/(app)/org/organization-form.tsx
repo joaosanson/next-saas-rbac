@@ -1,31 +1,33 @@
-'use client';
+'use client'
 
-import { Alert, AlertTitle } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { AlertTriangle, Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { createOrganizationAction, updateOrganizationAction } from './actions';
-import { organizationSchema, OrganizationType } from './types';
+import { zodResolver } from '@hookform/resolvers/zod'
+import { AlertTriangle, Loader2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+
+import { Alert, AlertTitle } from '@/components/ui/alert'
+import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+
+import { createOrganizationAction, updateOrganizationAction } from './actions'
+import { organizationSchema, OrganizationType } from './types'
 
 interface OrganizationFormProps {
-  isUpdating?: boolean;
-  initialData?: OrganizationType;
+  isUpdating?: boolean
+  initialData?: OrganizationType
 }
 
 export default function OrganizationForm({
   isUpdating = false,
   initialData,
 }: OrganizationFormProps) {
-  const [serverError, setServerError] = useState<string | null>(null);
-  const [serverSuccess, setServerSuccess] = useState<string | null>(null);
+  const [serverError, setServerError] = useState<string | null>(null)
+  const [serverSuccess, setServerSuccess] = useState<string | null>(null)
 
-  const router = useRouter();
+  const router = useRouter()
 
   const {
     register,
@@ -38,26 +40,26 @@ export default function OrganizationForm({
       domain: initialData?.domain,
       shouldAttachUsersByDomain: !!initialData?.shouldAttachUsersByDomain,
     },
-  });
+  })
 
   async function onSubmit(data: OrganizationType) {
-    setServerError(null);
+    setServerError(null)
     const formAction = isUpdating
       ? updateOrganizationAction
-      : createOrganizationAction;
+      : createOrganizationAction
 
-    const { success, errors, message } = await formAction(data);
+    const { success, errors, message } = await formAction(data)
 
     if (!success && message) {
-      setServerError(errors?.name || message);
-      return;
+      setServerError(errors?.name || message)
+      return
     }
     if (success && message) {
-      setServerSuccess(message);
+      setServerSuccess(message)
     }
 
     if (formAction === createOrganizationAction) {
-      router.push('/');
+      router.push('/')
     }
   }
 
@@ -145,5 +147,5 @@ export default function OrganizationForm({
         </Button>
       </form>
     </div>
-  );
+  )
 }

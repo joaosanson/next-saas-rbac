@@ -1,19 +1,21 @@
-'use client';
+'use client'
 
-import githubIcon from '@/assets/github-icon.svg';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { signInWithGithub } from '../actions';
-import { signUpWithEmailAndPassword } from './actions';
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2 } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
+import githubIcon from '@/assets/github-icon.svg'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Separator } from '@/components/ui/separator'
+
+import { signInWithGithub } from '../actions'
+import { signUpWithEmailAndPassword } from './actions'
 
 const signUpSchema = z
   .object({
@@ -29,12 +31,12 @@ const signUpSchema = z
   .refine((data) => data.password === data.password_confirmation, {
     message: 'Password confirmation does not match.',
     path: ['password_confirmation'],
-  });
+  })
 
-type SignUpFormData = z.infer<typeof signUpSchema>;
+type SignUpFormData = z.infer<typeof signUpSchema>
 
 export function SignUpForm() {
-  const router = useRouter();
+  const router = useRouter()
 
   const {
     register,
@@ -42,12 +44,12 @@ export function SignUpForm() {
     formState: { errors, isSubmitting },
   } = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
-  });
+  })
 
   async function onSubmit(data: SignUpFormData) {
-    await signUpWithEmailAndPassword(data);
+    await signUpWithEmailAndPassword(data)
 
-    router.push('/auth/sign-in');
+    router.push('/auth/sign-in')
   }
   return (
     <div className="space-y-4">
@@ -130,5 +132,5 @@ export function SignUpForm() {
         </Button>
       </form>
     </div>
-  );
+  )
 }

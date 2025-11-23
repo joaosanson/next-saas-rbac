@@ -1,16 +1,18 @@
-import atomIcon from '@/assets/atom-icon.svg';
-import { ability } from '@/auth/auth';
-import { Slash } from 'lucide-react';
-import Image from 'next/image';
-import { OrganizationSwitcher } from './organization-switcher';
-import { PendingInvites } from './pending-invites';
-import { ProfileButton } from './profile-button';
-import { ProjectSwitcher } from './project-switcher';
-import { ThemeSwitcher } from './theme/theme-switcher';
-import { Separator } from './ui/separator';
+import { Slash } from 'lucide-react'
+import Image from 'next/image'
+
+import atomIcon from '@/assets/atom-icon.svg'
+import { ability } from '@/auth/auth'
+
+import { OrganizationSwitcher } from './organization-switcher'
+import { PendingInvites } from './pending-invites'
+import { ProfileButton } from './profile-button'
+import { ProjectSwitcher } from './project-switcher'
+import { ThemeSwitcher } from './theme/theme-switcher'
+import { Separator } from './ui/separator'
 
 export async function Header() {
-  const permissions = await ability();
+  const permissions = await ability()
   return (
     <div className="mx-auto mb-2 flex max-w-[1200px] items-center justify-between">
       <div className="flex items-center gap-3">
@@ -35,5 +37,5 @@ export async function Header() {
         <ProfileButton />
       </div>
     </div>
-  );
+  )
 }

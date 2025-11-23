@@ -1,15 +1,16 @@
-import { ability, getCurrentOrg } from '@/auth/auth';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
-import { getInvites } from '@/http/get-invites';
-import { RevokeInviteButton } from './revoke-invite-button';
-import CreateInviteForm from "./create-invite-form";
+import { ability, getCurrentOrg } from '@/auth/auth'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
+import { getInvites } from '@/http/get-invites'
+
+import CreateInviteForm from './create-invite-form'
+import { RevokeInviteButton } from './revoke-invite-button'
 
 export async function Invites() {
-  const currentOrg = await getCurrentOrg();
-  const permission = await ability();
+  const currentOrg = await getCurrentOrg()
+  const permission = await ability()
 
-  const { invites } = await getInvites(currentOrg!);
+  const { invites } = await getInvites(currentOrg!)
 
   return (
     <div className="space-y-4">
@@ -52,12 +53,12 @@ export async function Invites() {
                       </div>
                     </TableCell>
                   </TableRow>
-                );
+                )
               })}
 
               {invites.length === 0 && (
                 <TableRow>
-                  <TableCell className="text-center text-muted-foreground">
+                  <TableCell className="text-muted-foreground text-center">
                     No invites found.
                   </TableCell>
                 </TableRow>
@@ -67,5 +68,5 @@ export async function Invites() {
         </div>
       </div>
     </div>
-  );
+  )
 }

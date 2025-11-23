@@ -1,12 +1,12 @@
-import { getCurrentOrg } from '@/auth/auth';
+import { getCurrentOrg } from '@/auth/auth'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
+} from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
 import {
   Table,
   TableBody,
@@ -15,12 +15,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { getBilling } from '@/http/get-billing';
+} from '@/components/ui/table'
+import { getBilling } from '@/http/get-billing'
 
 export async function Billing() {
-  const currentOrg = await getCurrentOrg();
-  const { billing } = await getBilling(currentOrg!);
+  const currentOrg = await getCurrentOrg()
+  const { billing } = await getBilling(currentOrg!)
 
   return (
     <>
@@ -91,5 +91,5 @@ export async function Billing() {
         </CardContent>
       </Card>
     </>
-  );
+  )
 }

@@ -1,24 +1,26 @@
-import { auth } from '@/auth/auth';
-import { ChevronDown, LogOut } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { ChevronDown, LogOut } from 'lucide-react'
+
+import { auth } from '@/auth/auth'
+
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from './ui/dropdown-menu';
+} from './ui/dropdown-menu'
 
 function getInitials(name: string) {
   const initials = name
     .split(' ')
     .map((word) => word.charAt(0).toUpperCase())
     .slice(0, 2)
-    .join('');
-  return initials;
+    .join('')
+  return initials
 }
 
 export async function ProfileButton() {
-  const { user } = await auth();
+  const { user } = await auth()
 
   return (
     <DropdownMenu>
@@ -48,5 +50,5 @@ export async function ProfileButton() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
 }

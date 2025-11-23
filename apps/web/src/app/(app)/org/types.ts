@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const organizationSchema = z.object({
   name: z
@@ -10,19 +10,19 @@ export const organizationSchema = z.object({
     .refine(
       (value) => {
         if (value) {
-          const domainRegex = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-          return domainRegex.test(value);
+          const domainRegex = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+          return domainRegex.test(value)
         }
-        return true;
+        return true
       },
       {
         message: 'Please, provide a valid domain.',
-      }
+      },
     ),
   shouldAttachUsersByDomain: z.boolean(),
-});
+})
 
-export const createOrganizationFormSchema = organizationSchema;
+export const createOrganizationFormSchema = organizationSchema
 
 export const createOrganizationActionSchema = organizationSchema
   .extend({
@@ -34,17 +34,17 @@ export const createOrganizationActionSchema = organizationSchema
   .refine(
     (data) => {
       if (data.shouldAttachUsersByDomain && !data.domain) {
-        return false;
+        return false
       }
-      return true;
+      return true
     },
     {
       message: 'Domain is required when attaching users by domain.',
       path: ['domain'],
-    }
-  );
+    },
+  )
 
-export type OrganizationType = z.infer<typeof organizationSchema>;
+export type OrganizationType = z.infer<typeof organizationSchema>
 export type createOrganizationActionType = z.infer<
   typeof createOrganizationActionSchema
->;
+>

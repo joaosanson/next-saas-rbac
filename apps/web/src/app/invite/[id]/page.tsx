@@ -1,56 +1,57 @@
-import { auth, isAuthenticated } from '@/auth/auth';
-import { Avatar } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { acceptInvite } from '@/http/accept-invite';
-import { getInvite } from '@/http/get-invite';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import { CheckCircle, LogIn, LogOut } from 'lucide-react';
-import { cookies } from 'next/headers';
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import { CheckCircle, LogIn, LogOut } from 'lucide-react'
+import { cookies } from 'next/headers'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
-dayjs.extend(relativeTime);
+import { auth, isAuthenticated } from '@/auth/auth'
+import { Avatar } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
+import { acceptInvite } from '@/http/accept-invite'
+import { getInvite } from '@/http/get-invite'
+
+dayjs.extend(relativeTime)
 
 interface InvitePageProps {
-  params: { id: string };
+  params: { id: string }
 }
 
 export default async function InvitePage({ params }: InvitePageProps) {
-  const { id } = await params;
+  const { id } = await params
 
-  const { invite } = await getInvite(id);
+  const { invite } = await getInvite(id)
 
-  const isUserAuthenticated = await isAuthenticated();
+  const isUserAuthenticated = await isAuthenticated()
 
-  let currentUserEmail = null;
+  let currentUserEmail = null
 
   if (isUserAuthenticated) {
-    const { user } = await auth();
+    const { user } = await auth()
 
-    currentUserEmail = user.email;
+    currentUserEmail = user.email
   }
 
   const userIsAuthenticatedWithSameEmailFromInvite =
-    currentUserEmail === invite.email;
+    currentUserEmail === invite.email
 
   async function signInFromInvite() {
-    'use server';
+    'use server'
 
-    const cookieStore = await cookies();
+    const cookieStore = await cookies()
 
-    cookieStore.set('inviteId', id);
+    cookieStore.set('inviteId', id)
 
-    redirect(`/auth/sign-in?email=${invite.email}`);
+    redirect(`/auth/sign-in?email=${invite.email}`)
   }
 
   async function acceptInviteAction() {
-    'use server';
+    'use server'
 
-    await acceptInvite(id);
+    await acceptInvite(id)
 
-    redirect(`/`);
+    redirect(`/`)
   }
 
   return (
@@ -122,5 +123,5 @@ export default async function InvitePage({ params }: InvitePageProps) {
         )}
       </div>
     </div>
-  );
+  )
 }

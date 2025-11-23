@@ -1,12 +1,12 @@
-import { api } from './api-client';
+import { api } from './api-client'
 
 interface GetOrganizationsResponse {
   organizations: {
-    name: string;
-    id: string;
-    slug: string;
-    avatarUrl: string | null;
-  }[];
+    name: string
+    id: string
+    slug: string
+    avatarUrl: string | null
+  }[]
 }
 
 export async function getOrganizations() {
@@ -16,7 +16,7 @@ export async function getOrganizations() {
         tags: ['organizations'],
       },
     })
-    .json<GetOrganizationsResponse>();
+    .json<GetOrganizationsResponse>()
 
-  return result;
+  return result
 }

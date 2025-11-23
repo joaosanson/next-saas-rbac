@@ -1,17 +1,17 @@
-import { env } from '@saas/env';
-import { NextRequest, NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
+import { env } from '@saas/env'
+import { cookies } from 'next/headers'
+import { NextResponse } from 'next/server'
 
-export async function GET(request: NextRequest) {
+export async function POST() {
   try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get('token')?.value;
-    
+    const cookieStore = await cookies()
+    const token = cookieStore.get('token')?.value
+
     if (!token) {
       return NextResponse.json(
         { error: 'Authentication required' },
-        { status: 401 }
-      );
+        { status: 401 },
+      )
     }
 
     // Make direct API call to your backend
@@ -19,19 +19,13 @@ export async function GET(request: NextRequest) {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    });
+    })
 
     if (!response.ok) {
-      throw new Error('Failed to fetch organizations');
+      throw new Error('Failed to fetch organizations')
     }
 
-    const data = await response.json();
-    return NextResponse.json(data);
-  } catch (error) {
-    console.error('Failed to fetch organizations:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch organizations' },
-      { status: 500 }
-    );
-  }
+    const data = await response.json()
+    return NextResponse.json(data)
+  } catch (error) {}
 }

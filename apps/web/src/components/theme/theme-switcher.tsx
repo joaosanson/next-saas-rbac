@@ -1,17 +1,18 @@
-'use client';
+'use client'
 
-import { Moon, Sun } from 'lucide-react';
-import { useTheme } from 'next-themes';
-import { Button } from '../ui/button';
+import { Moon, Sun } from 'lucide-react'
+import { useTheme } from 'next-themes'
+
+import { Button } from '../ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
+} from '../ui/dropdown-menu'
 
 export const ThemeSwitcher = () => {
-  const { resolvedTheme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme()
 
   return (
     <DropdownMenu>
@@ -20,7 +21,7 @@ export const ThemeSwitcher = () => {
           {resolvedTheme === 'light' ? (
             <Sun className="size-4" />
           ) : (
-            <Moon className="size-4" /> 
+            <Moon className="size-4" />
           )}
           <span className="sr-only">Toggle Theme</span>
         </Button>
@@ -38,5 +39,5 @@ export const ThemeSwitcher = () => {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
-};
+  )
+}

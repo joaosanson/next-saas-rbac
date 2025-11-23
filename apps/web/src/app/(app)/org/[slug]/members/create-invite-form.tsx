@@ -1,25 +1,26 @@
-'use client';
+'use client'
 
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { zodResolver } from '@hookform/resolvers/zod'
+import { AlertTriangle, Loader2, UserPlus } from 'lucide-react'
+import { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { AlertTriangle, Loader2, UserPlus } from 'lucide-react';
-import { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { createInviteAction } from './actions';
-import { inviteSchema, InviteType } from './types';
+} from '@/components/ui/select'
+
+import { createInviteAction } from './actions'
+import { inviteSchema, InviteType } from './types'
 
 export default function CreateInviteForm() {
-  const [serverError, setServerError] = useState<string | null>(null);
-  const [serverSuccess, setServerSuccess] = useState<string | null>(null);
+  const [serverError, setServerError] = useState<string | null>(null)
 
   const {
     register,
@@ -33,21 +34,18 @@ export default function CreateInviteForm() {
       email: '',
       role: 'MEMBER',
     },
-  });
+  })
 
   async function onSubmit(data: InviteType) {
-    setServerError(null);
-    const { success, errors, message } = await createInviteAction(data);
+    setServerError(null)
+    const { success, message, errors } = await createInviteAction(data)
 
     if (!success && message) {
-      setServerError(errors?.email || message);
-      return;
-    }
-    if (success && message) {
-      setServerSuccess(message);
+      setServerError(errors?.email || message)
+      return
     }
 
-    reset();
+    reset()
   }
 
   return (
@@ -124,5 +122,5 @@ export default function CreateInviteForm() {
         </div>
       </form>
     </div>
-  );
+  )
 }

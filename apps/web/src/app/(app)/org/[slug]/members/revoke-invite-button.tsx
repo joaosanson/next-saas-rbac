@@ -1,9 +1,11 @@
-import { Button } from '@/components/ui/button';
-import { XOctagon } from 'lucide-react';
-import { revokeInviteAction } from './actions';
+import { XOctagon } from 'lucide-react'
+
+import { Button } from '@/components/ui/button'
+
+import { revokeInviteAction } from './actions'
 
 interface RevokeInviteButtonProps {
-  inviteId: string;
+  inviteId: string
 }
 
 export async function RevokeInviteButton({
@@ -16,5 +18,5 @@ export async function RevokeInviteButton({
         Revoke invite
       </Button>
     </form>
-  );
+  )
 }

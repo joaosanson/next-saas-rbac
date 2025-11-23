@@ -1,16 +1,17 @@
-import type { Metadata } from 'next';
-import './globals.css';
+import './globals.css'
+
+import type { Metadata } from 'next'
+
+import { Providers } from './providers'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
-};
-
-import { Providers } from './providers';
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   if (typeof window === 'undefined') {
     // Polyfill localStorage for SSR if it's missing or invalid
@@ -28,7 +29,7 @@ export default function RootLayout({
           key: () => null,
         },
         writable: true,
-      });
+      })
     }
   }
 
@@ -38,5 +39,5 @@ export default function RootLayout({
         <Providers>{children}</Providers>
       </body>
     </html>
-  );
+  )
 }
